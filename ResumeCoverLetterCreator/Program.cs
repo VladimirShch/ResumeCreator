@@ -15,8 +15,7 @@ builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
-//app.UseStaticFiles();
-//app.MapGet("/", () => "Hello World!");
+app.UseStaticFiles();
 app.MapRazorPages();
 
 SeedData.EnsureCreated(app.Services);

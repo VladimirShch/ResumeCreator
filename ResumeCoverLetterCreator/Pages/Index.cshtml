@@ -4,29 +4,43 @@
     ViewBag.Title = "Resume Builder";
 }
 
-<p>Resume Builder</p>
+<h1 class="text-center">Resume Builder</h1>
 
-<form  method="post">
-    <label>Your Full Name:</label>
-    <input type="text" name="fullName" />
-    <label>Manager Name:</label>
-    <input type="text" name="hiringManager" />
-    <label>Company:</label>
-    <input type="text" name="companyFor" />
-    <label>Position:</label>
-    <input type="text" name="positionFor" />
+<form class="m-3" method="post">
+    <div class="row mb-3">
+        <label class="col-sm-2">Your Full Name:</label>
+        <input class="col-sm-3" type="text" name="fullName" />
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2">Manager Name:</label>
+        <input class="col-sm-3" type="text" name="hiringManager" />
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2">Company:</label>
+        <input class="col-sm-3" type="text" name="companyFor" />
+    </div>
+    <div class="row mb-3">
+        <label class="col-sm-2">Position:</label>
+        <input class="col-sm-4" type="text" name="positionFor" />
+    </div>
+    
+    
+    
 
     @foreach(var tagGroup in Model.TagGroups)
     {
-            <label>@($"{tagGroup.Name}:")</label>
-        <select name=@tagGroup.Id>
-            @foreach(var groupOption in tagGroup.GroupOptions)
-            {
-                        <option value=@groupOption.Id>@groupOption.Name</option>
-            }
-        </select>
+        <div class="row mb-3">
+            <label class="col-sm-2">@($"{tagGroup.Name}:")</label>
+            <select class="col-sm-8" name=@tagGroup.Id>
+                @foreach(var groupOption in tagGroup.GroupOptions)
+                {
+                            <option value=@groupOption.Id>@groupOption.Name</option>
+                }
+            </select>
+        </div>
+        
     }
      
-    <button asp-page-handler="PrepareDocuments">Get Documents</button>
+    <div class="text-center"><button class="btn btn-primary" asp-page-handler="PrepareDocuments">Get Documents</button></div>
 </form>       
 
