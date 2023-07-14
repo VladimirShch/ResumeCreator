@@ -1,0 +1,32 @@
+﻿@page
+@model ResumeCoverLetterCreator.Pages.IndexModel
+@{
+    ViewBag.Title = "Resume Builder";
+}
+
+<p>Resume Builder</p>
+
+<form  method="post">
+    <label>Your Full Name:</label>
+    <input type="text" name="fullName" />
+    <label>Manager Name:</label>
+    <input type="text" name="hiringManager" />
+    <label>Company:</label>
+    <input type="text" name="companyFor" />
+    <label>Position:</label>
+    <input type="text" name="positionFor" />
+
+    @foreach(var tagGroup in Model.TagGroups)
+    {
+            <label>@($"{tagGroup.Name}:")</label>
+        <select name=@tagGroup.Id>
+            @foreach(var groupOption in tagGroup.GroupOptions)
+            {
+                        <option value=@groupOption.Id>@groupOption.Name</option>
+            }
+        </select>
+    }
+     
+    <button asp-page-handler="PrepareDocuments">Get Documents</button>
+</form>       
+
