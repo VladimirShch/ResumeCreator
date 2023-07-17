@@ -22,6 +22,10 @@ namespace ResumeCoverLetterCreator.DataAccess
                 .HasMany(tg => tg.GroupOptions)
                 .WithOne(o => o.TagGroup);
 
+            builder.Entity<DocumentTag>()
+                .HasOne(dt => dt.TagGroup)
+                .WithMany(tg => tg.DocumentTags);
+
             builder.Entity<TagContentItem>()
                 .HasOne(c => c.DocumentTag)
                 .WithMany(t => t.TagContent);

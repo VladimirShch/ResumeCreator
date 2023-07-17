@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ResumeCoverLetterCreator.DataAccess;
 
@@ -10,9 +11,11 @@ using ResumeCoverLetterCreator.DataAccess;
 namespace ResumeCoverLetterCreator.Migrations
 {
     [DbContext(typeof(ResumeCreatorDbContext))]
-    partial class ResumeCreatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717054918_DocumentTagGroup")]
+    partial class DocumentTagGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
