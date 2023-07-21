@@ -24,7 +24,8 @@ namespace ResumeCoverLetterCreator.DataAccess
 
             builder.Entity<DocumentTag>()
                 .HasOne(dt => dt.TagGroup)
-                .WithMany(tg => tg.DocumentTags);
+                .WithMany(tg => tg.DocumentTags)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<TagContentItem>()
                 .HasOne(c => c.DocumentTag)

@@ -1,0 +1,32 @@
+﻿@page
+@model ResumeCoverLetterCreator.Pages.Edit.IndexModel
+@{
+    ViewBag.Title = "Edit Tag Groups";
+}
+<h1>Tag Groups</h1>
+<table>
+    @foreach (var group in Model.TagGroups)
+    {
+        <tr>
+            <td>@group.Name</td>
+            <td><a class="btn btn-secondary" asp-page="/Edit/Group" asp-route-id="@group.Id">Edit</a></td>
+            <td>
+                <form asp-page-handler="DeleteGroup" method="post">
+                    <input type="hidden" name="id" value="@group.Id"/>
+                    <button class="btn btn-secondary" onclick="return confirm('Are you sure want to delete group @group.Name')">Delete</button>
+                </form>               
+            </td>
+        </tr>
+    }
+</table>
+<div class="text-center">
+    <form asp-page-handler="AddGroup" method="post">
+        <label>Group Name:</label>
+        <input name="groupName" type="text" />
+        <input type="submit" class="btn btn-primary" value="Add Group" />
+    </form>
+</div>
+
+
+
+

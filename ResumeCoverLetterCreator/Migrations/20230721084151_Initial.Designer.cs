@@ -11,7 +11,7 @@ using ResumeCoverLetterCreator.DataAccess;
 namespace ResumeCoverLetterCreator.Migrations
 {
     [DbContext(typeof(ResumeCreatorDbContext))]
-    [Migration("20230714164357_Initial")]
+    [Migration("20230721084151_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -32,11 +32,16 @@ namespace ResumeCoverLetterCreator.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("TagGroupId")
+                        .HasColumnType("int");
+
                     b.Property<string>("TagName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TagGroupId");
 
                     b.ToTable("DocumentTags");
                 });
@@ -142,6 +147,17 @@ namespace ResumeCoverLetterCreator.Migrations
                     b.ToTable("TagGroups");
                 });
 
+            modelBuilder.Entity("ResumeCoverLetterCreator.DataAccess.DocumentTag", b =>
+                {
+                    b.HasOne("ResumeCoverLetterCreator.DataAccess.TagGroup", "TagGroup")
+                        .WithMany("DocumentTags")
+                        .HasForeignKey("TagGroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("TagGroup");
+                });
+
             modelBuilder.Entity("ResumeCoverLetterCreator.DataAccess.GroupOptionContentItem", b =>
                 {
                     b.HasOne("ResumeCoverLetterCreator.DataAccess.GroupOptionsItem", null)
@@ -186,6 +202,8 @@ namespace ResumeCoverLetterCreator.Migrations
 
             modelBuilder.Entity("ResumeCoverLetterCreator.DataAccess.TagGroup", b =>
                 {
+                    b.Navigation("DocumentTags");
+
                     b.Navigation("GroupOptions");
                 });
 #pragma warning restore 612, 618

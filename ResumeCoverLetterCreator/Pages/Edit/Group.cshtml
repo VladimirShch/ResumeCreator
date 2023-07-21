@@ -1,0 +1,53 @@
+﻿@page "{id:int}"
+@model ResumeCoverLetterCreator.Pages.Edit.GroupModel
+@{
+    ViewBag.Title = "Edit Group";
+}
+<h1>Group</h1>
+<form  asp-page-handler="ChangeName" method="post">
+    <input type="hidden" name="id" value="@Model.Group.Id"/>
+    <label>Name:</label>
+    <input type="text" name="newName" value="@Model.Group.Name"/>
+    <input class="btn btn-primary" type="submit" value="Save"/>
+</form>
+
+<h3>Tags</h3>
+<table>
+    @foreach(var tag in Model.Group.DocumentTags)
+    {
+        <tr>
+            <td>@tag.TagName</td>
+            <td><a class="btn btn-secondary" asp-page="/Edit/Tag" asp-route-id="@tag.Id">Edit</a></td>
+            <td>
+                <form asp-page-handler="DeleteTag" method="post">
+                    <input type="hidden" name="id" value="@tag.Id" />
+                    <button class="btn btn-secondary" onclick="return confirm('Are you sure want to delete tag @tag.TagName?')">Delete</button>
+                </form>
+            </td>       
+        </tr>
+    }
+</table>
+<form asp-page-handler="AddTag" method="post">
+    <input type="hidden" name="groupId" value="@Model.Group.Id"/>
+    <input type="text" name="name" />
+    <input type="submit" class="btn btn-primary" value="New Tag"/>
+</form>
+
+
+<h3>Options</h3>
+<table>
+    @foreach(var option in Model.Group.GroupOptions)
+    {
+        <tr>
+            <td>@option.Name</td>
+            <td><a class="btn btn-secondary" asp-page="/Edit/Option" asp-route-id="@option.Id">Edit</a></td>
+            <td>
+                <form asp-page-handler="DeleteOption" method="post">
+                    <input type="hidden" name="id" value="@option.Id"/>
+                    <button class="btn btn-secondary" onclick="return confirm('Are you sure want to delete tag @option.Name?')">Delete</button>
+                </form>              
+            </td>
+        </tr>
+    }
+</table>
+<a class="btn btn-primary" asp-page="/Edit/Option" asp-route-groupId="@Model.Group.Id">New Option</a>

@@ -1,0 +1,41 @@
+﻿@page "{id:int}"
+@model ResumeCoverLetterCreator.Pages.Edit.TagModel
+@{
+    ViewBag.Title = "Edit Tag";
+}
+<h1>Tag</h1>
+<form  asp-page-handler="ChangeName" method="post">
+    <input type="hidden" name="id" value="@Model.Tag.Id" />
+    <label>Name:</label>
+    <input type="text" name="name" value="@Model.Tag.TagName"/>
+    <input class="btn btn-primary" type="submit" value="Save"/>
+</form>
+<h3>Tag Implementations</h3>
+<div id="tagImplementations">
+    <form asp-page-handler="ChangeContent" id="change-implementation" method="post"></form>
+    <table>
+        @foreach (var implementation in Model.Tag.TagContent)
+        {
+            <tr>           
+                <td>
+                    <input type="hidden" form="change-implementation" name="id" value="@implementation.Id" />
+                    <input type="text" form="change-implementation" name="content" value="@implementation.Content" />
+                </td>
+                <td>
+                    <input type="submit" form="change-implementation" value="Save" class="btn btn-secondary" onclick="return confirm('Are you sure want to change tag implementation?')" />
+                </td>  
+                <td>
+                    <form asp-page-handler="DeleteContent" method="post">
+                        <input type="hidden"  name="id" value="@implementation.Id" />
+                        <input type="submit"  value="Delete" class="btn btn-secondary" onclick="return confirm('Are you sure want to delete tag implementation?')" />
+                    </form>
+                </td>
+            </tr>      
+        }
+    </table>   
+</div>
+<form asp-page-handler="AddContent" method="post">
+    <input type="hidden" name="tagId" value="@Model.Tag.Id" />
+    <input type="text" name="content" />
+    <input type="submit" value="New Implementation" class="btn btn-primary" />
+</form>

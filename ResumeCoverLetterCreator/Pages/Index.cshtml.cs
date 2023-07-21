@@ -30,16 +30,8 @@ namespace ResumeCoverLetterCreator.Pages
             TagGroups = _resumeDbContext.TagGroups.Include(tg => tg.GroupOptions).ThenInclude(go => go.TagContent).ThenInclude(tc => tc.DocumentTag);
         }
 
-        public IActionResult OnPostPrepareDocuments(string fullName, string companyFor, string positionFor, string hiringManager, Dictionary<string,string> values)
+        public IActionResult OnPostPrepareDocuments(string fullName, string companyFor, string positionFor, string hiringManager, List<int> selectedOptions)
         {
-            var selectedOptions = new List<int>();
-            foreach(var inputValue in values)
-            {
-                if(int.TryParse(inputValue.Key, out int key) && int.TryParse(inputValue.Value, out int value))
-                {
-                    selectedOptions.Add(value);
-                }
-            }
             var tagPairs = _resumeDbContext.GroupOptions.Where(go => selectedOptions.Any(t => t == go.Id)).Include(go => go.TagContent).ThenInclude(tc => tc.DocumentTag)
                 .SelectMany(go => go.TagContent.Select(tc => KeyValuePair.Create(tc.DocumentTag.TagName, tc.Content)));
 

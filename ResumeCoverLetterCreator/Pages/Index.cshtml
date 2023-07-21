@@ -31,16 +31,18 @@
     {
         <div class="row mb-3">
             <label class="col-sm-2">@($"{tagGroup.Name}:")</label>
-            <select class="col-sm-8" name=@tagGroup.Id>
+            <select class="col-sm-8" name="selectedOptions">
                 @foreach(var groupOption in tagGroup.GroupOptions)
                 {
-                            <option value=@groupOption.Id>@groupOption.Name</option>
+                   <option value=@groupOption.Id>@groupOption.Name</option>
                 }
             </select>
         </div>
         
     }
      
-    <div class="text-center"><button class="btn btn-primary" asp-page-handler="PrepareDocuments">Get Documents</button></div>
+    <div class="text-center">
+        <button class="btn btn-primary" asp-page-handler="PrepareDocuments">Get Documents</button>
+    </div>
 </form>       
 

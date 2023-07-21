@@ -1,0 +1,37 @@
+﻿@page "{id:int?}"
+@model ResumeCoverLetterCreator.Pages.Edit.OptionModel
+@{
+    ViewBag.Title = Model.Option.Id > 0 ? "Edit Option" : "New Option";
+}
+<h1>Option</h1>
+<label>Group: @Model.Option.TagGroup.Name</label>
+
+<form asp-page-handler="Save" id="option-form" method="post">
+    <input type="hidden" name="id" value="@Model.Option.Id" />
+    <input type="hidden" name="groupId" value="@Model.Option.TagGroup.Id" />
+    <label>Name:</label>
+    <input type="text" name="name" value="@Model.Option.Name" /> 
+
+    <h3>Tags Implementations</h3>
+    <table>
+        @foreach (var tag in @Model.Option.TagGroup.DocumentTags.Where(t => t.TagContent.Any()))
+        {
+            <tr>           
+                <td>
+                    @tag.TagName
+                </td>
+                <td>
+                    <select name="tagImplementations[@tag.Id]">
+                        @foreach(var implementation in tag.TagContent)
+                        {
+                            <!option value="@implementation.Id" @(Model.Option.TagContent.Any(c => c.DocumentTag.Id == tag.Id && c.Id == implementation.Id) ? "selected" : "")>@implementation.Content</!option>
+                        }
+                    </select>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="text-center">
+        <input class="btn btn-primary" type="submit" value="Save" onclick="return confirm('Save Changes?')" />
+    </div>
+</form>

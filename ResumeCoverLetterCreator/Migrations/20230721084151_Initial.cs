@@ -11,19 +11,6 @@ namespace ResumeCoverLetterCreator.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "DocumentTags",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DocumentTags", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DocumentTypes",
                 columns: table => new
                 {
@@ -50,23 +37,23 @@ namespace ResumeCoverLetterCreator.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TagContent",
+                name: "DocumentTags",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DocumentTagId = table.Column<int>(type: "int", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    TagName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TagGroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TagContent", x => x.Id);
+                    table.PrimaryKey("PK_DocumentTags", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TagContent_DocumentTags_DocumentTagId",
-                        column: x => x.DocumentTagId,
-                        principalTable: "DocumentTags",
+                        name: "FK_DocumentTags_TagGroups_TagGroupId",
+                        column: x => x.TagGroupId,
+                        principalTable: "TagGroups",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -85,6 +72,26 @@ namespace ResumeCoverLetterCreator.Migrations
                         name: "FK_GroupOptions_TagGroups_TagGroupId",
                         column: x => x.TagGroupId,
                         principalTable: "TagGroups",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TagContent",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DocumentTagId = table.Column<int>(type: "int", nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TagContent", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TagContent_DocumentTags_DocumentTagId",
+                        column: x => x.DocumentTagId,
+                        principalTable: "DocumentTags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -114,6 +121,11 @@ namespace ResumeCoverLetterCreator.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DocumentTags_TagGroupId",
+                table: "DocumentTags",
+                column: "TagGroupId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GroupOptionContent_GroupOptionsId",
@@ -152,10 +164,10 @@ namespace ResumeCoverLetterCreator.Migrations
                 name: "TagContent");
 
             migrationBuilder.DropTable(
-                name: "TagGroups");
+                name: "DocumentTags");
 
             migrationBuilder.DropTable(
-                name: "DocumentTags");
+                name: "TagGroups");
         }
     }
 }

@@ -149,7 +149,7 @@ namespace ResumeCoverLetterCreator.Migrations
                     b.HasOne("ResumeCoverLetterCreator.DataAccess.TagGroup", "TagGroup")
                         .WithMany("DocumentTags")
                         .HasForeignKey("TagGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("TagGroup");
