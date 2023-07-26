@@ -12,18 +12,18 @@
 </form>
 <h3>Tag Implementations</h3>
 <div id="tagImplementations">
-    <form asp-page-handler="ChangeContent" id="change-implementation" method="post"></form>
+    
     <table>
         @foreach (var implementation in Model.Tag.TagContent)
         {
             <tr>           
-                <td>
-                    <input type="hidden" form="change-implementation" name="id" value="@implementation.Id" />
-                    <input type="text" form="change-implementation" name="content" value="@implementation.Content" />
+                <td colspan="2">
+                    <form asp-page-handler="ChangeContent" method="post">
+                        <input type="hidden" name="id" value="@implementation.Id" />
+                        <input type="text" name="content" value="@implementation.Content" />
+                        <input type="submit" value="Save" class="btn btn-secondary" onclick="return confirm('Are you sure want to change tag implementation?')" />
+                    </form>                    
                 </td>
-                <td>
-                    <input type="submit" form="change-implementation" value="Save" class="btn btn-secondary" onclick="return confirm('Are you sure want to change tag implementation?')" />
-                </td>  
                 <td>
                     <form asp-page-handler="DeleteContent" method="post">
                         <input type="hidden"  name="id" value="@implementation.Id" />
